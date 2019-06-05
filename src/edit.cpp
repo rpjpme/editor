@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 using namespace std;
+
 int main(int argc, char* argv[])
 {
     WithStdscr main_window = WithStdscr::CreateResource();
@@ -14,12 +15,12 @@ int main(int argc, char* argv[])
     auto ibuf = buffer.begin(); // get iterator of class vector
     int key = 0;
     bool exit = false;
-    int cur_h, cur_w;
+    int cur_h;
     while (!exit) {
         key = getch();
         switch (key) {
         case KEY_BACKSPACE:
-            if (ibuf != ibuf_end) {
+            if (ibuf != buffer.end()) {
                 *ibuf = (char)0; // add cast so, not to confuse with setting the pointer to  0/NULL
                 --ibuf;
             }
