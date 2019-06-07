@@ -15,7 +15,7 @@ int main(int argc, char* argv[])
     auto ibuf = buffer.begin(); // get iterator of class vector
     int key = 0;
     bool exit = false;
-    int cur_h;
+    int cur_h = 0, cur_w = 0;
     while (!exit) {
         key = getch();
         switch (key) {
