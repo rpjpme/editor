@@ -41,6 +41,7 @@ public:
         if (h == 0 || w == 0)
             getmaxyx(stdscr, h, w);
         win = newwin(h, w, y, x);
+        wborder(win, 0, 0, 0, 0, 0, 0, 0, 0);
         buffer = std::vector<char>(h * w, 0);
         ibuf = buffer.begin();
     }

@@ -1,5 +1,5 @@
 #include "window.hpp"
-
+#include <cctype>
 WithStdscr::WithStdscr()
 {
     stdscr = stdscr;
@@ -39,17 +39,19 @@ void EditorWindow::handler(int key, Status& stat)
         cur_w = 0;
         break;
     default:
-        if (key) {
+        if (isprint(key) || key == (int)'\n') {
             *ibuf = (char)key;
             ++ibuf;
             if (ibuf == buffer.end())
                 ibuf = buffer.begin(); // for now we have a circular buffer.
         };
+        stat.handled = false;
     };
     move(0, 0);
     wclear(stdscr);
     waddstr(stdscr, buffer.data());
     refresh();
+    stat.handled = true;
     return;
 }; // Handle the key send to this window. (call back function)
 
