@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 {
     { // start of resource scope.
         WithStdscr main_window = WithStdscr::CreateResource();
-        EditorWindow editor(nullptr, 50, 50);
+        EditorWindow editor( 50, 50);
         int key = 0;
         Status status;
         bool exit = false;
