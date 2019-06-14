@@ -4,26 +4,13 @@
 #include <vector>
 #include "log.hpp"
 //using namespace std; NEVER PUT USING NMAESPACE IN A HEADER FILE. CAN LEAD TO BUGS IN COMPLETELY INDEPENDED PART OF AN APP.
-//
-// Withscreen: is a ncurses screen Resource Management.
-// when instance of WithStdscr goes out of scope all settings are reverted to a normal terminal.
-class WithStdscr {
-public:
-    WINDOW* _stdscr;
-    WithStdscr();
-    //WithStdscr(const WithStdscr&) = delete;
-    //    WithStdscr(WithStdscr&) = delete;
-    ~WithStdscr();
-
-    static WithStdscr& CreateResource();
-};
 typedef struct {
     bool handled = true;
 } Status; // return status for callback function
 
 class EditorWindow {
     WINDOW* win;
-    int height, width;
+    int height, width,cwidth,cheight;
     int ypos, xpos;
 
     std::vector<char> buffer;
@@ -37,19 +24,22 @@ public:
         , width(w)
         , ypos(y)
         , xpos(x)
-        , log(Log(warning))
+        , cwidth(0)
+        , cheight(0)
+        , log(Log())
     {
-        log.out(info,"EditorWindow Constructor");
+        Log::out <<"EditorWindow Constructor\n";
         if (h == 0 || w == 0)
             getmaxyx(stdscr, h, w);
         win = newwin(h, w, y, x);
         wborder(win, 0, 0, 0, 0, 0, 0, 0, 0);
-        log << "window" << (void *)win << h << w << y << x << '\n';
+        Log::out << "window: " << (void *)win << "h:" << h <<"w:"<< w <<"y:" << y << "x:" << x << '\n';
         buffer = std::vector<char>(h * w, 0);
         ibuf = buffer.begin();
     }
     ~EditorWindow()
     {
+        Log::out << "EditorWindow destructor\n";
         if (win)
             delwin(win);
     }
